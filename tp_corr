@@ -1,0 +1,101 @@
+import streamlit as st
+import pandas as pd
+import altair as alt
+
+# Configuration de la page
+st.set_page_config(
+    page_title="Iris Classification", 
+    page_icon="🌸",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
+
+# Initialisation du state de la page
+if 'page_selection' not in st.session_state:
+    st.session_state.page_selection = 'about'
+
+# Fonction de navigation
+def set_page_selection(page):
+    st.session_state.page_selection = page
+
+# Chargement des données
+try:
+    df = pd.read_csv('iris.csv', delimiter=',')
+except FileNotFoundError:
+    st.error("Fichier iris.csv non trouvé")
+    df = None
+
+# Sidebar de navigation
+def sidebar_navigation():
+    with st.sidebar:
+        st.title('Iris Classification')
+        st.subheader("Navigation")
+
+        # Liste des pages
+        pages = [
+            ('🏠 About', 'about'),
+            ('📊 Dataset', 'dataset'),
+            ('🔍 EDA', 'eda'),
+            ('🧹 Data Cleaning', 'data_cleaning'),
+            ('🤖 Machine Learning', 'machine_learning'),
+            ('🔮 Prediction', 'prediction'),
+            ('📝 Conclusion', 'conclusion')
+        ]
+
+        # Création des boutons de navigation
+        for label, page_key in pages:
+            if st.button(label, 
+                         key=page_key, 
+                         use_container_width=True):
+                set_page_selection(page_key)
+
+        # Section informations
+        st.divider()
+        st.subheader("Informations")
+        st.markdown("**Projet:** Classification des Iris")
+        st.markdown("**Auteur:** Votre Nom")
+
+# Contenu des pages
+def page_content():
+    # Page About
+    if st.session_state.page_selection == 'about':
+        st.header("🌸 À propos du projet Iris")
+        st.write("""
+        ### Présentation du Projet
+        - **Objectif:** Classification des fleurs Iris
+        - **Algorithmes:** Machine Learning
+        - **Jeu de données:** Iris Dataset
+        """)
+
+    # Page Dataset
+    elif st.session_state.page_selection == 'dataset':
+        st.header("📊 Jeu de Données Iris")
+        if df is not None:
+            st.dataframe(df)
+            st.write(f"Nombre de lignes : {len(df)}")
+            st.write(f"Nombre de colonnes : {df.shape[1]}")
+
+    # Page EDA
+    elif st.session_state.page_selection == 'eda':
+        st.header("🔍 Exploration des Données")
+        if df is not None:
+            # Graphique interactif
+            chart = alt.Chart(df).mark_point().encode(
+                x='petal_length',
+                y='petal_width',
+                color='species'
+            )
+            st.altair_chart(chart, use_container_width=True)
+
+    # Autres pages à implémenter...
+    else:
+        st.warning("Page en cours de développement")
+
+# Fonction principale
+def main():
+    sidebar_navigation()
+    page_content()
+
+# Exécution de l'application
+if __name__ == "__main__":
+    main()
