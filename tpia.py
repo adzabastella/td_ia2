@@ -171,7 +171,7 @@ elif def show_prediction_page():
     # Bouton pour prédire
         if st.button("Prédire l'espèce"):
         # Préparer les données d'entrée
-            input_data = [[sepal_length, sepal_width, petal_length, petal_width]]
+            input_data = [["sepal_length", "sepal_width", "petal_length", "petal_width"]]
         
         # Effectuer la prédiction
             prediction = model.predict(input_data)
