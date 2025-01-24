@@ -176,11 +176,5 @@ elif def show_prediction_page():
         prediction = model.predict(input_data)
         prediction_proba = model.predict_proba(input_data)
 
-        # Mapper les indices aux noms des espèces
-        species = iris.target_names[prediction[0]]
-        st.write(f"### Espèce prédite : {species}")
-        st.write(f"### Probabilités :")
-        for name, proba in zip(iris.target_names, prediction_proba[0]):
-            st.write(f"{name} : {proba:.2%}")
-    
+     
 
