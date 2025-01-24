@@ -147,9 +147,6 @@ elif st.session_state.page_selection == 'eda':
 elif st.session_state.page_selection == 'data_cleaning':
     st.title("Data Cleaning")
     st.write("Étapes pour nettoyer et prétraiter les données.")
-
-st.title("Data Cleaning / Pre-processing")
-    st.write("Cette page contient des étapes pour nettoyer et prétraiter les données.")
     st.write("### Exemple de traitement :")
     st.write(df.info())
     st.write("### Suppression des doublons et gestion des NaN :")
