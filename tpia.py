@@ -156,25 +156,31 @@ elif st.session_state.page_selection == 'data_cleaning':
 elif st.session_state.page_selection == 'machine_learning':
     st.title("Machine Learning")
     st.write("Étapes du machine learning.")
+    def show_data_cleaning_page():
+        st.write("### Exemple de traitement :")
+        st.write(df.info())
+        st.write("### Suppression des doublons et gestion des NaN :")
+        df_cleaned = df.drop_duplicates().fillna(method="bfill")
+        st.write(df_cleaned)
 
 elif def show_prediction_page():
-    st.title("Prediction")
-    st.write("Entrez les caractéristiques pour prédire l'espèce d'une fleur d'Iris.")
+        st.title("Prediction")
+        st.write("Entrez les caractéristiques pour prédire l'espèce d'une fleur d'Iris.")
 
     # Champs pour saisir les caractéristiques
-    sepal_length = st.number_input("Longueur du sépale (cm)", min_value=0.0, max_value=10.0, value=5.0)
-    sepal_width = st.number_input("Largeur du sépale (cm)", min_value=0.0, max_value=10.0, value=3.0)
-    petal_length = st.number_input("Longueur du pétale (cm)", min_value=0.0, max_value=10.0, value=1.5)
-    petal_width = st.number_input("Largeur du pétale (cm)", min_value=0.0, max_value=10.0, value=0.5)
+        sepal_length = st.number_input("Longueur du sépale (cm)", min_value=0.0, max_value=10.0, value=5.0)
+        sepal_width = st.number_input("Largeur du sépale (cm)", min_value=0.0, max_value=10.0, value=3.0)
+        petal_length = st.number_input("Longueur du pétale (cm)", min_value=0.0, max_value=10.0, value=1.5)
+        petal_width = st.number_input("Largeur du pétale (cm)", min_value=0.0, max_value=10.0, value=0.5)
 
     # Bouton pour prédire
-    if st.button("Prédire l'espèce"):
+        if st.button("Prédire l'espèce"):
         # Préparer les données d'entrée
-        input_data = [[sepal_length, sepal_width, petal_length, petal_width]]
+            input_data = [[sepal_length, sepal_width, petal_length, petal_width]]
         
         # Effectuer la prédiction
-        prediction = model.predict(input_data)
-        prediction_proba = model.predict_proba(input_data)
+            prediction = model.predict(input_data)
+            prediction_proba = model.predict_proba(input_data)
 
      
 
