@@ -52,6 +52,9 @@ with st.sidebar:
 @st.cache_data
 def load_data():
     return pd.read_csv('iris.csv')
+st.title('ISJM BI - Exploration des données des Iris')
+
+st.header('Pré-analyse visuelles données données des Iris TP1')  # On définit l'en-tête d'une section
 
 df = load_data()
 
