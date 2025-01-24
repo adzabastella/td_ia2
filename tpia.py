@@ -36,24 +36,29 @@ with st.sidebar:
 if "page_selection" not in st.session_state:
     st.session_state.page_selection = "About"
 
-# Create a radio button for navigation and update session state
-st.session_state.page_selection = st.radio("Navigation", pages, index=pages.index(st.session_state.page_selection))
+ # Page Button Navigation
+    st.subheader("Pages")
 
-# Render the selected page
-if st.session_state.page_selection == "About":
-    show_about_page()
-elif st.session_state.page_selection == "Dataset":
-    show_dataset_page()
-elif st.session_state.page_selection == "EDA":
-    show_eda_page()
-elif st.session_state.page_selection == "Data Cleaning / Pre-processing":
-    show_data_cleaning_page()
-elif st.session_state.page_selection == "Machine Learning":
-    show_machine_learning_page()
-elif st.session_state.page_selection == "Prediction":
-    show_prediction_page()
-elif st.session_state.page_selection == "Conclusion":
-    show_conclusion_page()
+    if st.button("About", use_container_width=True, on_click=set_page_selection, args=('about',)):
+        st.session_state.page_selection = 'about'
+    
+    if st.button("Dataset", use_container_width=True, on_click=set_page_selection, args=('dataset',)):
+        st.session_state.page_selection = 'dataset'
+
+    if st.button("EDA", use_container_width=True, on_click=set_page_selection, args=('eda',)):
+        st.session_state.page_selection = "eda"
+
+    if st.button("Data Cleaning / Pre-processing", use_container_width=True, on_click=set_page_selection, args=('data_cleaning',)):
+        st.session_state.page_selection = "data_cleaning"
+
+    if st.button("Machine Learning", use_container_width=True, on_click=set_page_selection, args=('machine_learning',)): 
+        st.session_state.page_selection = "machine_learning"
+
+    if st.button("Prediction", use_container_width=True, on_click=set_page_selection, args=('prediction',)): 
+        st.session_state.page_selection = "prediction"
+
+    if st.button("Conclusion", use_container_width=True, on_click=set_page_selection, args=('conclusion',)):
+        st.session_state.page_selection = "conclusion"
 
     # Project Details
     st.subheader("Abstract")
