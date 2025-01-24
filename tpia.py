@@ -32,9 +32,28 @@ with st.sidebar:
     pages = ["About", "Dataset", "EDA", "Data Cleaning / Pre-processing",
              "Machine Learning", "Prediction", "Conclusion"]
 
-    # Create a radio button for navigation
-    selected_page = st.radio("Navigation", pages, index=pages.index(st.session_state.page_selection))
-    set_page_selection(selected_page)  # Update the session state
+    # Initialize page_selection in session state if not already set
+if "page_selection" not in st.session_state:
+    st.session_state.page_selection = "About"
+
+# Create a radio button for navigation and update session state
+st.session_state.page_selection = st.radio("Navigation", pages, index=pages.index(st.session_state.page_selection))
+
+# Render the selected page
+if st.session_state.page_selection == "About":
+    show_about_page()
+elif st.session_state.page_selection == "Dataset":
+    show_dataset_page()
+elif st.session_state.page_selection == "EDA":
+    show_eda_page()
+elif st.session_state.page_selection == "Data Cleaning / Pre-processing":
+    show_data_cleaning_page()
+elif st.session_state.page_selection == "Machine Learning":
+    show_machine_learning_page()
+elif st.session_state.page_selection == "Prediction":
+    show_prediction_page()
+elif st.session_state.page_selection == "Conclusion":
+    show_conclusion_page()
 
     # Project Details
     st.subheader("Abstract")
