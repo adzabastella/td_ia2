@@ -87,7 +87,7 @@ elif st.session_state.page_selection == 'dataset':
         st.session_state.show_shape = False
 
     # Boutons de prévisualisation
-    st.subheader("Boutons de prévisualisation du DataFrame")
+   
     col1, col2 = st.columns(2)
     with col1:
         if st.button("Head"):
@@ -156,26 +156,25 @@ elif st.session_state.page_selection == 'data_cleaning':
 elif st.session_state.page_selection == 'machine_learning':
     st.title("Machine Learning")
     st.write("Étapes du machine learning.")
-    def show_data_cleaning_page():
-        st.write("### Exemple de traitement :")
-        st.write(df.info())
-        st.write("### Suppression des doublons et gestion des NaN :")
-        df_cleaned = df.drop_duplicates().fillna(method="bfill")
-        st.write(df_cleaned)
+    
 
-elif def show_prediction_page():
-        st.title("Prediction")
-        st.write("Entrez les caractéristiques pour prédire l'espèce d'une fleur d'Iris.")
+ # Prediction page
+if st.session_state.page_selection == "prediction":
+    st.title("Prediction")
+    st.write("### Entrez les caractéristiques pour prédire l'espèce d'une fleur d'Iris.")
 
-   
-    # Bouton pour prédire
-        if st.button("Prédire l'espèce"):
-        # Préparer les données d'entrée
-            input_data = [["sepal_length", "sepal_width", "petal_length", "petal_width"]]
-        
-        # Effectuer la prédiction
-            prediction = model.predict(input_data)
-            prediction_proba = model.predict_proba(input_data)
+    # Input fields for prediction
+    sepal_length = st.number_input("Longueur du sépale (cm)", min_value=0.0, max_value=10.0, value=5.1)
+    sepal_width = st.number_input("Largeur du sépale (cm)", min_value=0.0, max_value=10.0, value=3.5)
+    petal_length = st.number_input("Longueur du pétale (cm)", min_value=0.0, max_value=10.0, value=1.4)
+    petal_width = st.number_input("Largeur du pétale (cm)", min_value=0.0, max_value=10.0, value=0.2)
+
+    # Bouton de prédiction
+    if st.button("Prédire"):
+        input_data = [[sepal_length, sepal_width, petal_length, petal_width]]
+        prediction = model.predict(input_data)
+        species = ["setosa", "versicolor", "virginica"]
+        st.write(f"### Espèce prédite : **{species[prediction[0]]}**")
 
      
 
