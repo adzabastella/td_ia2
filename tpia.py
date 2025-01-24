@@ -16,11 +16,11 @@ alt.themes.enable("dark")
 # -------------------------
 # Sidebar Navigation
 
-# Initialize page_selection in session state if not already set
+# Initialize `page_selection` in session state if not already set
 if 'page_selection' not in st.session_state:
-    st.session_state.page_selection = 'about'  # Default page
+    st.session_state.page_selection = 'About'  # Default page
 
-# Function to update page_selection
+# Function to update page_selection (triggered by navigation)
 def set_page_selection(page):
     st.session_state.page_selection = page
 
@@ -32,8 +32,9 @@ with st.sidebar:
     pages = ["About", "Dataset", "EDA", "Data Cleaning / Pre-processing",
              "Machine Learning", "Prediction", "Conclusion"]
 
-    # Create radio buttons for navigation
-    st.session_state.page_selection = st.radio("Navigation", pages, index=pages.index(st.session_state.page_selection))
+    # Create a radio button for navigation
+    selected_page = st.radio("Navigation", pages, index=pages.index(st.session_state.page_selection))
+    set_page_selection(selected_page)  # Update the session state
 
     # Project Details
     st.subheader("Abstract")
@@ -80,11 +81,11 @@ def show_dataset_page():
     with col1:
         if st.button("Afficher les 5 premières lignes"):
             st.session_state.show_head = True
-            st.session_state.show_tail = False  # Réinitialiser l'état du bouton "tail"
+            st.session_state.show_tail = False
     with col2:
         if st.button("Afficher les 5 dernières lignes"):
             st.session_state.show_tail = True
-            st.session_state.show_head = False  # Réinitialiser l'état du bouton "head"
+            st.session_state.show_head = False
 
     # Affichage conditionnel basé sur l'état
     if st.session_state.show_head:
