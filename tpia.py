@@ -16,11 +16,11 @@ alt.themes.enable("dark")
 # -------------------------
 # Sidebar Navigation
 
-# Initialize `page_selection` in session state if not already set
+# Initialize page_selection in session state if not already set
 if 'page_selection' not in st.session_state:
-    st.session_state.page_selection = 'About'  # Default page
+    st.session_state.page_selection = 'about'  # Default page
 
-# Function to update page_selection (triggered by navigation)
+# Function to update page_selection
 def set_page_selection(page):
     st.session_state.page_selection = page
 
@@ -32,9 +32,8 @@ with st.sidebar:
     pages = ["About", "Dataset", "EDA", "Data Cleaning / Pre-processing",
              "Machine Learning", "Prediction", "Conclusion"]
 
-    # Create a radio button for navigation
-    selected_page = st.radio("Navigation", pages, index=pages.index(st.session_state.page_selection))
-    set_page_selection(selected_page)  # Update the session state
+    # Create radio buttons for navigation
+    st.session_state.page_selection = st.radio("Navigation", pages, index=pages.index(st.session_state.page_selection))
 
     # Project Details
     st.subheader("Abstract")
@@ -52,9 +51,6 @@ with st.sidebar:
 @st.cache_data
 def load_data():
     return pd.read_csv('iris.csv')
-st.title('ISJM BI - Exploration des données des Iris')
-
-st.header('Pré-analyse visuelles données données des Iris TP1')  # On définit l'en-tête d'une section
 
 df = load_data()
 
@@ -72,71 +68,29 @@ def show_dataset_page():
     st.write("### Aperçu des données :")
     st.dataframe(df)
 
-   def show_dataset_page():
-    st.title("Dataset")
-    st.write("### Aperçu des données :")
-    st.dataframe(df)
-
-    # Initialiser les états des boutons dans session_state
+    # Initialize session state for buttons
     if "show_head" not in st.session_state:
         st.session_state.show_head = False
     if "show_tail" not in st.session_state:
         st.session_state.show_tail = False
-    if "show_info" not in st.session_state:
-        st.session_state.show_info = False
-    if "show_shape" not in st.session_state:
-        st.session_state.show_shape = False
 
     # Boutons de prévisualisation
     st.subheader("Boutons de prévisualisation du DataFrame")
     col1, col2 = st.columns(2)
     with col1:
-        if st.button("Head"):
-            # Gérer les états des boutons
+        if st.button("Afficher les 5 premières lignes"):
             st.session_state.show_head = True
-            st.session_state.show_tail = False
-            st.session_state.show_info = False
-            st.session_state.show_shape = False
-
-        if st.button("Info"):
-            st.session_state.show_head = False
-            st.session_state.show_tail = False
-            st.session_state.show_info = True
-            st.session_state.show_shape = False
-
+            st.session_state.show_tail = False  # Réinitialiser l'état du bouton "tail"
     with col2:
-        if st.button("Tail"):
-            st.session_state.show_head = False
+        if st.button("Afficher les 5 dernières lignes"):
             st.session_state.show_tail = True
-            st.session_state.show_info = False
-            st.session_state.show_shape = False
-
-        if st.button("Shape"):
-            st.session_state.show_head = False
-            st.session_state.show_tail = False
-            st.session_state.show_info = False
-            st.session_state.show_shape = True
+            st.session_state.show_head = False  # Réinitialiser l'état du bouton "head"
 
     # Affichage conditionnel basé sur l'état
     if st.session_state.show_head:
-        st.write("### Les 5 premières lignes du DataFrame :")
         st.write(df.head())
-
     if st.session_state.show_tail:
-        st.write("### Les 5 dernières lignes du DataFrame :")
         st.write(df.tail())
-
-    if st.session_state.show_info:
-        st.write("### Informations sur le DataFrame :")
-        buffer = []
-        df.info(buf=buffer)
-        st.text("\n".join(buffer))
-
-    if st.session_state.show_shape:
-        st.write("### Dimensions du DataFrame :")
-        st.write(f"Nombre de lignes : {df.shape[0]}")
-        st.write(f"Nombre de colonnes : {df.shape[1]}")
-
 
 def show_eda_page():
     st.title("Exploratory Data Analysis (EDA)")
@@ -199,4 +153,3 @@ elif st.session_state.page_selection == "Prediction":
     show_prediction_page()
 elif st.session_state.page_selection == "Conclusion":
     show_conclusion_page()
-
