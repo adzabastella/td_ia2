@@ -29,9 +29,7 @@ with st.sidebar:
 
     # Page Button Navigation
     st.subheader("Pages")
-    pages = ["About", "Dataset", "EDA", "Data Cleaning / Pre-processing",
-             "Machine Learning", "Prediction", "Conclusion"]
-
+   
     # Initialize page_selection in session state if not already set
 if "page_selection" not in st.session_state:
     st.session_state.page_selection = "About"
