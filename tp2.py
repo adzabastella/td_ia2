@@ -42,8 +42,8 @@ with st.sidebar:
     st.markdown("""
     Dashboard pour l'analyse et la modélisation des données bancaires.
     
-    - 📊 Dataset : Campagnes marketing bancaires
-    - 🐙 [GitHub Repository](https://github.com/YourRepo)
+    - 🌊 Dataset : Campagnes marketing bancaires
+    - 🖙 [GitHub Repository](https://github.com/YourRepo)
     """)
 
 # -------------------------
@@ -51,8 +51,8 @@ with st.sidebar:
 @st.cache_data
 def load_data():
     file_path = 'bank-additional-full.csv'
-    if os.path.exists(bank-additional):
-        return pd.read_csv(bank-additional-full.csv, delimiter=';')
+    if os.path.exists(bank-additional-full):
+        return pd.read_csv('bank-additional-full.csv', delimiter=';')
     else:
         st.error("Fichier 'bank-additional.csv' non trouvé. Veuillez vérifier son emplacement.")
         return pd.DataFrame()
@@ -94,10 +94,13 @@ elif st.session_state.page_selection == 'eda':
         )
         st.altair_chart(hist_age, use_container_width=True)
         
-        st.subheader("Proportion des souscriptions")
-        sub_rate = df['y'].value_counts(normalize=True).reset_index()
-        sub_rate.columns = ['Souscription', 'Proportion']
-        st.dataframe(sub_rate)
+        if 'y' in df.columns:
+            st.subheader("Proportion des souscriptions")
+            sub_rate = df['y'].value_counts(normalize=True).reset_index()
+            sub_rate.columns = ['Souscription', 'Proportion']
+            st.dataframe(sub_rate)
+        else:
+            st.error("La colonne 'y' est absente du dataset.")
 
 elif st.session_state.page_selection == 'machine_learning':
     st.title("Modèle de Machine Learning")
@@ -118,39 +121,17 @@ elif st.session_state.page_selection == 'prediction':
         st.write("Entrez les informations du client pour prédire s'il souscrira à un produit bancaire.")
         
         age = st.number_input("Âge", min_value=18, max_value=100, value=35)
-        job = st.selectbox("Profession", df['job'].unique())
-        marital = st.selectbox("État civil", df['marital'].unique())
-        education = st.selectbox("Éducation", df['education'].unique())
+        job = st.selectbox("Profession", df['job'].unique()) if 'job' in df.columns else st.text_input("Profession")
+        marital = st.selectbox("État civil", df['marital'].unique()) if 'marital' in df.columns else st.text_input("État civil")
+        education = st.selectbox("Éducation", df['education'].unique()) if 'education' in df.columns else st.text_input("Éducation")
         balance = st.number_input("Solde bancaire moyen", value=1000)
-        housing = st.selectbox("Prêt immobilier", df['housing'].unique())
-        loan = st.selectbox("Prêt personnel", df['loan'].unique())
-        contact = st.selectbox("Type de contact", df['contact'].unique())
+        housing = st.selectbox("Prêt immobilier", df['housing'].unique()) if 'housing' in df.columns else st.text_input("Prêt immobilier")
+        loan = st.selectbox("Prêt personnel", df['loan'].unique()) if 'loan' in df.columns else st.text_input("Prêt personnel")
+        contact = st.selectbox("Type de contact", df['contact'].unique()) if 'contact' in df.columns else st.text_input("Type de contact")
         duration = st.number_input("Durée du dernier contact (en secondes)", value=200)
         campaign = st.number_input("Nombre de contacts pendant cette campagne", value=1)
         previous = st.number_input("Nombre de contacts précédents", value=0)
-        poutcome = st.selectbox("Résultat de la campagne précédente", df['poutcome'].unique())
-        
-        input_data = pd.DataFrame({
-            'age': [age],
-            'job': [job],
-            'marital': [marital],
-            'education': [education],
-            'balance': [balance],
-            'housing': [housing],
-            'loan': [loan],
-            'contact': [contact],
-            'duration': [duration],
-            'campaign': [campaign],
-            'previous': [previous],
-            'poutcome': [poutcome]
-        })
+        poutcome = st.selectbox("Résultat de la campagne précédente", df['poutcome'].unique()) if 'poutcome' in df.columns else st.text_input("Résultat de la campagne précédente")
         
         if st.button("Prédire"):
-            try:
-                prediction = model.predict(input_data)
-                result = "Souscrit" if prediction[0] == 'yes' else "Ne souscrit pas"
-                st.write(f"### Résultat : {result}")
-            except Exception as e:
-                st.error(f"Erreur lors de la prédiction : {e}")
-
-  
+            st.error("Aucun modèle chargé pour effectuer la prédiction.")
