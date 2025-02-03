@@ -5,7 +5,7 @@ import io  # Pour capturer la sortie de df.info()
 
 # Page configuration
 st.set_page_config(
-    page_title="Iris Classification",
+    page_title="bank additionnal",
     page_icon="🌸",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -26,7 +26,7 @@ def set_page_selection(page):
     st.session_state.page_selection = page
 
 with st.sidebar:
-    st.title('Iris Classification')
+    st.title('bank additionnal')
 
     # Page Button Navigation
     st.subheader("Pages")
@@ -59,7 +59,7 @@ with st.sidebar:
 # Load data
 @st.cache_data
 def load_data():
-    return pd.read_csv('iris.csv', delimiter=',')
+    return pd.read_csv('bank-additional.csv', delimiter=',')
 
 df = load_data()
 
@@ -69,7 +69,7 @@ df = load_data()
 # Handle page rendering based on selection
 if st.session_state.page_selection == 'about':
     st.title("About this App")
-    st.write("Application pour explorer les données des fleurs d'Iris.")
+    st.write("Application pour explorer les données bancaires.")
 
 elif st.session_state.page_selection == 'dataset':
     st.title("Dataset")
