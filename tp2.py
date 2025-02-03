@@ -50,9 +50,9 @@ with st.sidebar:
 # Chargement des données
 @st.cache_data
 def load_data():
-    file_path = 'bank-additional.csv'
-    if os.path.exists(file_path):
-        return pd.read_csv(file_path, delimiter=';')
+    file_path = 'bank-additional-full.csv'
+    if os.path.exists(bank-additional):
+        return pd.read_csv(bank-additional-full.csv, delimiter=';')
     else:
         st.error("Fichier 'bank-additional.csv' non trouvé. Veuillez vérifier son emplacement.")
         return pd.DataFrame()
