@@ -69,7 +69,7 @@ df = load_data()
 # Handle page rendering based on selection
 if st.session_state.page_selection == 'about':
     st.title("About this App")
-    st.write("Application pour explorer les données bancaires.")
+    st.write("Application pour explorer les données des fleurs.")
 
 elif st.session_state.page_selection == 'dataset':
     st.title("Dataset")
