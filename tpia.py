@@ -5,7 +5,7 @@ import io  # Pour capturer la sortie de df.info()
 
 # Page configuration
 st.set_page_config(
-    page_title="bank additionnal",
+    page_title="iris",
     page_icon="🌸",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -26,7 +26,7 @@ def set_page_selection(page):
     st.session_state.page_selection = page
 
 with st.sidebar:
-    st.title('bank additionnal')
+    st.title(iris')
 
     # Page Button Navigation
     st.subheader("Pages")
@@ -59,7 +59,7 @@ with st.sidebar:
 # Load data
 @st.cache_data
 def load_data():
-    return pd.read_csv('bank-additional.csv', delimiter=',')
+    return pd.read_csv('iris.csv', delimiter=',')
 
 df = load_data()
 
