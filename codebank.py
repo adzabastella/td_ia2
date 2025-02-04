@@ -4,13 +4,30 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.preprocessing import LabelEncoder
 
+# Vérifier que les bibliothèques nécessaires sont installées
+try:
+    import matplotlib.pyplot as plt
+    import seaborn as sns
+    from sklearn.preprocessing import LabelEncoder
+except ModuleNotFoundError as e:
+    st.error(f"Module manquant : {e}. Veuillez installer les dépendances requises.")
+    st.stop()
+
 # Chemin du fichier CSV
 DATA_PATH = r"C:\Users\STELLA\mesNotebook\bank-additional-full.csv"
 
 @st.cache_data
 def load_data():
     """Charge et prépare le dataset."""
-    df = pd.read_csv(DATA_PATH, sep=';')
+    try:
+        df = pd.read_csv(DATA_PATH, sep=';')
+    except FileNotFoundError:
+        st.error("Fichier CSV introuvable. Vérifiez le chemin et réessayez.")
+        st.stop()
+    except Exception as e:
+        st.error(f"Erreur lors du chargement du fichier : {e}")
+        st.stop()
+    
     original_df = df.copy()  # Conserver les données originales pour les filtres
     
     # Transformation des colonnes catégorielles
@@ -31,20 +48,26 @@ st.sidebar.header("Filtres")
 
 # Filtres interactifs basés sur les valeurs originales
 def get_filter(column):
+    if column not in original_df.columns:
+        return []
     mapping = {label: idx for idx, label in enumerate(original_df[column].unique())}
     selected_labels = st.sidebar.multiselect(f"Sélectionner {column}", options=list(mapping.keys()), default=list(mapping.keys()))
     return [mapping[label] for label in selected_labels]
 
-job_filter = get_filter('job')
-marital_filter = get_filter('marital')
-education_filter = get_filter('education')
-default_filter = get_filter('default')
-housing_filter = get_filter('housing')
-loan_filter = get_filter('loan')
-contact_filter = get_filter('contact')
-month_filter = get_filter('month')
-poutcome_filter = get_filter('poutcome')
-y_filter = get_filter('y')
+try:
+    job_filter = get_filter('job')
+    marital_filter = get_filter('marital')
+    education_filter = get_filter('education')
+    default_filter = get_filter('default')
+    housing_filter = get_filter('housing')
+    loan_filter = get_filter('loan')
+    contact_filter = get_filter('contact')
+    month_filter = get_filter('month')
+    poutcome_filter = get_filter('poutcome')
+    y_filter = get_filter('y')
+except KeyError as e:
+    st.error(f"Colonne manquante dans les données : {e}")
+    st.stop()
 
 # Filtres numériques
 age_slider = st.sidebar.slider("Sélectionner une plage d'âge", int(df['age'].min()), int(df['age'].max()), (int(df['age'].min()), int(df['age'].max())))
